@@ -262,4 +262,33 @@ class TypeScriptToKotlin(
             addJsNameAnnotation(symbol, "default")
         }
     }
+
+    override fun visitExportDeclaration(node: ExportDeclaration) {
+        if (node.moduleSpecifier == null) return
+
+        val symbol = typeChecker.getSymbolAtLocation(node)
+        if (symbol != null) {
+            TODO()
+        }
+
+        //val declarations =  node.symbol.declarations
+        val children = node.getChildren()
+
+        val parentKind = when(node.parent.kind as Any) {
+            SyntaxKind.SourceFile -> "SyntaxKind.SourceFile"
+            SyntaxKind.ModuleBlock -> "SyntaxKind.ModuleBlock"
+            else -> {
+                reportUnsupportedNode(node)
+                "???"
+            }
+        }
+
+
+        parentKind
+
+        // node.expression -> './simple'
+
+
+
+    }
 }

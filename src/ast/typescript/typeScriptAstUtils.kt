@@ -395,8 +395,8 @@ fun ClassOrInterfaceDeclaration.toKotlinType(typeMapper: ObjectTypeToKotlinTypeM
 }
 
 fun forEachChild(visitor: Visitor, node: Node) {
-    forEachChild(node, { node ->
-        visitNode(visitor, node)
+    forEachChild(node, { it ->
+        visitNode(visitor, it)
         undefined
     })
 }
@@ -416,33 +416,35 @@ private fun visitNodeImpl(visitor: Visitor, node: Node) {
     when (node.kind as Any) {
         SyntaxKind.ModuleDeclaration -> visitor.visitModuleDeclaration(node.asDynamic())
 
-        SyntaxKind.FunctionDeclaration    -> visitor.visitFunctionDeclaration(node.cast<FunctionDeclaration>())
-        SyntaxKind.VariableStatement -> visitor.visitVariableStatement(node.cast<VariableStatement>())
+        SyntaxKind.FunctionDeclaration    -> visitor.visitFunctionDeclaration(node.cast())
+        SyntaxKind.VariableStatement -> visitor.visitVariableStatement(node.cast())
 
-        SyntaxKind.EnumDeclaration -> visitor.visitEnumDeclaration(node.cast<EnumDeclaration>())
+        SyntaxKind.EnumDeclaration -> visitor.visitEnumDeclaration(node.cast())
 
-        SyntaxKind.ClassDeclaration -> visitor.visitClassDeclaration(node.cast<ClassDeclaration>())
-        SyntaxKind.InterfaceDeclaration -> visitor.visitInterfaceDeclaration(node.cast<InterfaceDeclaration>())
-        SyntaxKind.TypeAliasDeclaration -> visitor.visitTypeAliasDeclaration(node.cast<TypeAliasDeclaration>())
+        SyntaxKind.ClassDeclaration -> visitor.visitClassDeclaration(node.cast())
+        SyntaxKind.InterfaceDeclaration -> visitor.visitInterfaceDeclaration(node.cast())
+        SyntaxKind.TypeAliasDeclaration -> visitor.visitTypeAliasDeclaration(node.cast())
 
-        SyntaxKind.HeritageClause -> visitor.visitHeritageClause(node.cast<HeritageClause>())
+        SyntaxKind.HeritageClause -> visitor.visitHeritageClause(node.cast())
 
-        SyntaxKind.Constructor -> visitor.visitConstructorDeclaration(node.cast<ConstructorDeclaration>())
-        SyntaxKind.ConstructSignature -> visitor.visitConstructSignatureDeclaration(node.cast<ConstructorDeclaration>())
+        SyntaxKind.Constructor -> visitor.visitConstructorDeclaration(node.cast())
+        SyntaxKind.ConstructSignature -> visitor.visitConstructSignatureDeclaration(node.cast())
 
         // TODO what is difference between MethodSignature and MethodDeclaration
         SyntaxKind.MethodDeclaration,
-        SyntaxKind.MethodSignature -> visitor.visitMethodDeclaration(node.cast<MethodDeclaration>())
+        SyntaxKind.MethodSignature -> visitor.visitMethodDeclaration(node.cast())
 
         // TODO what is difference between PropertySignature and PropertyDeclaration
         SyntaxKind.PropertyDeclaration,
-        SyntaxKind.PropertySignature -> visitor.visitPropertyDeclaration(node.cast<PropertyDeclaration>())
+        SyntaxKind.PropertySignature -> visitor.visitPropertyDeclaration(node.cast())
 
-        SyntaxKind.IndexSignature -> visitor.visitIndexSignature(node.cast<IndexSignatureDeclaration>())
-        SyntaxKind.CallSignature -> visitor.visitSignatureDeclaration(node.cast<SignatureDeclaration>())
+        SyntaxKind.IndexSignature -> visitor.visitIndexSignature(node.cast())
+        SyntaxKind.CallSignature -> visitor.visitSignatureDeclaration(node.cast())
 
-        SyntaxKind.ExportAssignment -> visitor.visitExportAssignment(node.cast<ExportAssignment>())
+        SyntaxKind.ExportAssignment -> visitor.visitExportAssignment(node.cast())
         SyntaxKind.ImportEqualsDeclaration -> visitor.visitImportEqualsDeclaration(node.cast())
+
+        SyntaxKind.ExportDeclaration -> visitor.visitExportDeclaration(node.cast())
 
         SyntaxKind.EndOfFileToken -> { /* ignore */ }
         else -> reportUnsupportedNode(node)
@@ -480,7 +482,6 @@ fun TypeChecker.getSymbolResolvingAliases(location: Node): Symbol? {
     }
     return symbol
 }
-
 
 fun List<KtNode>.toStringKey(): String =
         map { it.stringify().replace("(\\(|,\\s*)\\w+: ".toRegex(), "$1") }.sorted().joinToString("")

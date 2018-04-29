@@ -75,15 +75,13 @@ fun translate(srcPath: String, basePackageName: String, declareModifierIsOptiona
             filesToProcess.push(referencedFilePath)
             file2scriptSnapshot[referencedFilePath] = getScriptSnapshotFromFile(referencedFilePath)
         }
+
+        // TODO (ammachado): Here files from export declarations should be already loaded on the cache, which isn't happening.
     }
 
     host.file2scriptSnapshot = file2scriptSnapshot
     host.currentDirectory = getDirectoryPath(normalizeSrcPath)
 
-//    languageService.getSyntacticDiagnostics("foo.d.ts")
-//    languageService.getSemanticDiagnostics("foo.d.ts")
-
-//    val fileNode = languageService.getSourceFile(normalizeSrcPath)
     val fileNode = languageService.getProgram().getSourceFile(normalizeSrcPath)
 
     inline fun isAnyMember(node: MethodDeclaration): Boolean {
@@ -206,7 +204,6 @@ fun translate(srcPath: String, basePackageName: String, declareModifierIsOptiona
             typechecker.getPropertyOfType(type, nodeName) != null
         }
     }
-
 
     // TODO drop hack for reset temp class indexer for each file
     ObjectTypeToKotlinTypeMapperImpl.reset()

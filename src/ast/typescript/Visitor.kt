@@ -27,6 +27,8 @@ interface Visitor {
 
     fun visitExportAssignment(node: ExportAssignment): Unit = unsupported(node)
     fun visitImportEqualsDeclaration(node: ImportEqualsDeclaration): Unit = unsupported(node)
+
+    fun visitExportDeclaration(node: ExportDeclaration) : Unit = unsupported(node)
 }
 
 @Suppress("NOTHING_TO_INLINE")

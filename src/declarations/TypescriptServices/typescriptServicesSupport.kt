@@ -217,3 +217,7 @@ inline val ImportSpecifier.identifierName: Identifier
 inline val ExportSpecifier.identifierName: Identifier
     get() = asDynamic().name
 
+inline val ExportDeclaration.identifierName: Identifier
+    get() = asDynamic().name
+
+

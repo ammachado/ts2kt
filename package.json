@@ -23,6 +23,7 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
+    "kotlin": "^1.2.41",
     "typescript": "2.6.2"
   },
   "devDependencies": {
